@@ -129,14 +129,15 @@ public class Main extends JApplet implements Runnable {
 
     @Override
     public void run() {// this always executed bedause runnable 
-        while (Thread.currentThread() == animator) {//check conniti
-            if (pan_cam < 200) {
+        while (Thread.currentThread() == animator) {//check condition for animation status
+            if (pan_cam < 200) {//cahnging value for pan cam  basically skewing object as prespective
                 pan_cam += 1;
-                dash_inc += 0.05;
-                building_pres += 1;
-            }else if (dark_val > 0) {
-                dark_val-=1;
-                sun_position-=1;
+                dash_inc += 0.05;// cchangin value for road dash so it moves
+                building_pres += 1;//changijng building prespective
+            }else if (dark_val > 0) {//check value if dark  is no more or its day time
+                dark_val-=1;//reducing dark value
+                sun_position-=1;//increasing sun position
+                //below is for changin sky color from night to day time
                 if (skyR > 190) {
                     skyR++;
                 }
@@ -147,18 +148,18 @@ public class Main extends JApplet implements Runnable {
                     skyB++;
                 }
                 if (starOpacity > 20) {
-                    starOpacity-=20;
+                    starOpacity-=20;//reducing star opacity as day goes brigter
                 } else {
                     starStatus = false;
                 }
             }else if(sun_position <= 20){
-                window_color = Color.gray;
-                cloudX-=3;
+                window_color = Color.gray;//changing window color from yellow to gray if its day time
+                cloudX-=3;// start moviing cloud position
             } else {
                 stop();
             }
-            starColor = new Color(255,255,255,starOpacity);
-            skyColor = new Color(skyR, skyG, skyB);
+            starColor = new Color(255,255,255,starOpacity);//creating new color object for star opaciyu every vaue chamge
+            skyColor = new Color(skyR, skyG, skyB);//creating new color object for sky color every vaue chamge
             repaint();
             try {
                 Thread.sleep(30); //time in milliseconds
@@ -167,7 +168,10 @@ public class Main extends JApplet implements Runnable {
             }
         }
     }
-
+/**
+function for creating trapezodial object using polygon
+input x and y coordinatye and height and witdht of the trapezoid
+ */
     public void trapezoidal(int top, int bottom,int height,int x,int y) {
         int y2 = height+y;
         int y3 = height+y;
@@ -180,7 +184,10 @@ public class Main extends JApplet implements Runnable {
         int[] y_points = new int [] {y,y2,y3, y};
         g2.fillPolygon(x_points,y_points, 4);
     }
-
+/**
+funtion for creating dashed line
+input coordinate for pint 1 and 2  
+*/
     public void drawDashedLine(Graphics g, int x1, int y1, int x2, int y2){
         // Create a copy of the Graphics instance
         Graphics2D g2d = (Graphics2D) g.create();
@@ -193,7 +200,10 @@ public class Main extends JApplet implements Runnable {
         // Get rid of the copy
         g2d.dispose();
     }
-
+/**
+funtion for drwaing lots of stars at random psotion by given area
+input  sount of stars and end of area coordinates and a color
+*/
     public void stars(Graphics g,int count,int x,int y,Color color) {
 
         Graphics2D g2d = (Graphics2D) g.create();
@@ -207,7 +217,10 @@ public class Main extends JApplet implements Runnable {
             drawStars(g,color, star[0][i], star[1][i]);
         }
     }
-
+/**
+fcuntion draw polygon shaped star
+input coordinate and color of star
+ */
     public void drawStars(Graphics g, Color Color,int x,int y) {
         Graphics2D g2d = (Graphics2D) g.create();
         g2d.setColor(Color);
@@ -235,7 +248,9 @@ public class Main extends JApplet implements Runnable {
 
         g2d.fillPolygon(x_points,y_points, 8);
     }
-
+/**
+function for draing cloud by given coordinates
+ */
     public void drawCloud (Graphics g2, int cloudX, int cloudY) {
         g2.setColor(Color.white);
         g2.fillOval(cloudX, cloudY, 50, 60);
